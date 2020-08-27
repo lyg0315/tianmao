@@ -1,0 +1,22 @@
+<!DOCTYPE html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><title>天猫登录界面</title><link rel=stylesheet href=../css/reset.css><link rel=stylesheet href=../css/denglu.css><link rel=stylesheet href=../css/comment.css><link rel=stylesheet href=../css/iconfont.css><script src=../lib/jquery-1.12.4.js></script></head><body><div id=top><div class=top_inner><h2><a href=#><img src=../images/TB1.png alt=""></a></h2></div></div><div id=banner><div class=banner_inner><a href=#><img src=../images/denglu.jpg alt=""></a><div class=register><p>扫码登录更安全 ></p><div class=register_span><img src=../images/topew.png alt=""></div><a href=# class=register_a1>密码登录</a><form id=form class=fm_form><input type=text placeholder=会员名/邮箱/手机号 class=tex id=fm_text><br><input type=password placeholder=请输入登录密码 class=pad id=fm_pasd><br><input type=submit value=登录 id=sub class=sub></form><div class=med_a><a href=#>忘记密码</a> <a href=#>忘记用户名</a> <a href=#>忘记用户名</a></div></div></div></div><script>//要进行登入验证后端数据库是否有这个账号
+        //需要穿入text进  register.php中  
+        //然后进行判断  反馈回来
+
+        //进行ajax连接后台数据库
+        //当点击登录的时候 
+        $(function(){
+            $('#form').submit(function(){
+            var $username = $('#fm_text').val();
+            var $password = $('#fm_pasd').val();
+            $.post('../php/register.php',`username=${$username}&password=${$password}`,function(data){
+                if(data.code==0){
+                    alert('账户或用户名错误')
+                }
+                else{
+                    // $(window).attr('location','http://tmall.com')
+                   location.href="./index.html";
+                }
+        },'json')
+            return false;
+            })
+        })</script><footer id=foot><div class="content foot_banner"><p class=foot_p1><a href=#>关于天猫</a> <a href=#>帮助中心</a> <a href=#>开放平台</a> <a href=#>诚聘英才</a> <a href=#>联系我们</a> <a href=#>网站合作</a> <a href=#>法律声明</a> <a href=#>隐私权政策</a> <a href=#>知识产权</a> <a href=#>廉政举报</a> <a href=#>规则意见征集</a></p><div class=foot_p2><a href=#>阿里巴巴集团</a><span></span> <a href=#>淘宝网</a><span></span> <a href=#>天猫</a><span></span> <a href=#>聚划算</a><span></span> <a href=#>全球速卖通</a><span></span> <a href=#>阿里巴巴国际交易市场</a><span></span> <a href=#>1688</a><span></span> <a href=#>阿里妈妈</a><span></span> <a href=#>飞猪</a><span></span> <a href=#>阿里云计算</a><span></span> <a href=#>Alios</a><span></span> <a href=#>阿里通信</a><span></span> <a href=#>万网</a><span></span> <a href=#>高德</a><span></span> <a href=#>UC</a><span></span> <a href=#>友盟</a><span></span> <a href=#>虾米</a><span></span> <a href=#>钉钉</a><span></span> <a href=#>支付宝</a><span></span> <a href=#>阿里安全</a><span></span></div><div class=foot_p3><p class=""><i>增值电信业务经营许可证:浙B2-20110446</i> <i>市场名称登记证:工商网市字3301004119号</i> <i>出版物网络交易平合服务经营备案证:新出发浙备字第001号</i></p><p><i>互联网违法和不良信息举报电话:0571-81683755 blxxjb@alibaba-inc.com</i> <i>互联网药品信息服务资质证书编号:浙-(经营性)-2017-0005</i> <i>浙公网安备33010002000120号</i></p><p><i>医疗器械网络交易服务第三方平台备案:(浙）网械平台备字[2018]第0O002号</i> <i>互联网药品交易服务资格证书:国A20150001</i></p><p><i>浙江省网络食品销售第三方平台提供者备案:浙网食A33010002</i> <i>12318举报</i></p><h6>@2003-2020 TMALL.COM版权所有</h6><a href=#><img src=../images/foot02.gif alt=""><img src=../images/foot01.jpg alt=""></a></div></div></footer></body></html>

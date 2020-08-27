@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><title>天猫注册</title><link rel=stylesheet href=../css/reset.css><link rel=stylesheet href=../css/zuce.css><link rel=stylesheet href=../css/comment.css><script src=../lib/jquery-1.12.4.js></script></head><body><div id=top><div class=top_inner><h2>1.同意协定</h2><h2>2.填写账户信息</h2><h2>3.设置支付方式</h2><div class=box1><h3>注册协议 <strong><a href=./index.html>×</a></strong></h3><p><span>【审慎阅读】</span><i>你在申请注册流程中点击同意钱，应当认真阅读以下协议。</i>请您务必审慎阅读、充分理解协议中相关条款内</p><p>1、与您约定免除或限制责任的条款;</p><p>2、与您约定法律适用和管辖的条款;</p><p>3、其他以粗体下划线标识的重要条款;</p><i>如您对协议有任何疑问，可向平台客服咨询。</i><div class=smallbox><span>【特别提示】</span>当您按照注册页面提示填写信息、阅读并同意协议且完成全部注册程序后，即表示您已充分阅读、理解并接受协议的全部内容。如您因平台服务与淘宝发生争议的，适用《淘宝平台服务协议》处理。如您在使用平台服务过程中与其他用户发生争议的，依您与其他用户达成的协议处理。</div><p>阅读协议的过程中，如果您不同意相关协议或其中任何条款约定，您应立即停止注册程序。</p><ul><li><a href=#>淘宝平台服务协议</a></li><li><a href=#>隐私权政策</a></li><li><a href=#>法律声明</a></li><li><a href=#>支付宝及客户端服务协议</a></li></ul><button class=btn1>同意协议</button></div><div class=box2><p>天猫用户注册</p><form action="" class=med><span>用户名:</span><input type=text placeholder=邮箱手机 class=text onblur=funct()><br><div id=span1>亲输入账号，为6-16个字符，字母开头，不能有特殊符号</div><span>密码:</span> <input type=password class=pas1><br><span>确认密码:</span> <input type=password class=pas2 onblur=pass()><br><div id=span2></div><div><span>验证码:</span><input type=text class=tend><i class=nums></i> <button class=btn2>换个图片</button></div><input type=submit value=注册新用户 class=subms></form></div></div></div><script>/* 
+        当点击的btn1的时候关闭box1，显示box2
+        上面第二个h2标签的颜色改变
+        
+        */
+       $(function(){
+        $('.btn1').click(function(){
+            $('.box1').css({display:'none'});
+            $('.box2').css({display:'block'});
+            $('h2').eq(1).css({
+                color:'red',
+                fontWeight:'900',
+            }).siblings('h2').css({
+                color:'#cccccc',
+                fontWeight:'none'
+            })
+            $('.nums').html(num());
+        })
+       })
+       //点击换个图  
+       
+       //注册事项
+       
+       //1.账号和密码得有正则表达式限制
+       function funct(){
+           var $textval=$('.text').val();
+           var res=/[^a-z|A-Z|0-9|\-|_|\.]/g;
+           if($textval.length<6||$textval.length>18){
+               $('#span1').html('❗用户名字符长度必须在6-18之间').css({color:'red', textAlign: 'center'});
+               $('.text').val('');
+           }
+           //判断是否首字母为数字
+           else if(!isABC(($textval)[0])){
+            $('#span1').html('❗用户名首字母必须字母数字开头').css({color:'red', textAlign: 'center'});
+            $('.text').val('');
+           }
+           //判断内容是否为数字，字母下划线
+          else if(res.test($textval)){
+            $('#span1').html('❗用户名必须字母数字下划线组成').css({color:'red', textAlign: 'center'});
+            $('.text').val('');
+           }
+          else{
+            $('#span1').html('用户名符合要求').css({color:'red', textAlign: 'center'});
+          }
+       }
+       //判断密码输入格式
+       function pass(){
+        var res1=/[^a-z|A-Z|0-9|\-|_|\.]/g;
+        var $pas1 = $('.pas1').val();
+        var $pas2 = $('.pas2').val();
+        if($pas1!=$pas2){
+            $('#span2').html('❗两次密码输入不正确').css({color:'red', textAlign: 'center'});
+            $('.pas2').val('');
+        }
+        else if($pas1==$pas2){
+            if($pas2.length<6||$pas2.length>16){
+                $('#span2').html('❗密码需要在6-16位').css({color:'red', textAlign: 'center'});
+                $('.pas2').val('');
+                $('.pas1').val('');
+            }
+            else if(res1.test($pas2)){
+                $('#span2').html('❗密码必须字母数字下划线组成').css({color:'red', textAlign: 'center'})
+            }
+            else{
+                $('#span2').html('密码相同').css({color:'red', textAlign: 'center'});
+            }
+        }
+        }
+
+        //当点击from的时候
+           $('.med').submit(function(){
+               var $username =$('.text').val();
+               var $password =$('.pas2').val();
+               if($('.text').val()==''||$('.pas2').val()==''||$('.tend').val()!=$('.nums').html()){
+                   console.log('不符合要求')
+               }else{
+                $.post('../php/register.php',`username=${$username}&password=${$password}`,function(data){
+                    //
+                       if(data.code==1){
+                           alert('此用户已被注册')
+                       }
+                       else{
+                           //当用户名不在数据库，存入数据库
+                        $.post('../php/zuce.php',`username=${$username}&password=${$password}`,function(data){
+                            console.log(data);
+                        },'json');
+                        alert('注册成功啦，快去登录吧');
+                        location.href="./register.html";
+                       }
+                       
+                   },'json')
+               }
+               return false;
+           }) 
+         //判断验证码是否正确
+        //1 随机出现数字验证码
+        function  num(){
+            var num = Math.floor(Math.random()*(8999)+1000);
+            return num
+        }
+     // 判断字符是否为字母和数字
+     function  isABC(a){
+            if(a>='a'&& a<='z'||a>='A'&& a<='Z'||a<='9'&&a>='1'){
+                return  true;
+            }
+            else{
+                return false;
+            }
+        }</script></body></html>
